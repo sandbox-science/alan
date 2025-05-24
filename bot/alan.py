@@ -19,7 +19,7 @@ def setup_handlers(bot, prefix):
     """
     @bot.listener.on_message_event
     async def _on_message(room, event):
-        latency_start = time.monotonic()
+        latency_start = time.monotonic_ns()
         match         = MessageMatch(room, event, bot, prefix)
         if match.is_not_from_this_bot() and match.prefix():
             await ping.on_ping(match, bot, latency_start)
