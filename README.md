@@ -14,7 +14,13 @@ PASSWORD: "password" # replace with the bot's password
 ```
 
 ## Usage
-- Run the bot with the command:
+First, activate the virtual environment:
+```bash
+python -m venv venv      # create a virtual environment
+source venv/bin/activate # activate the virtual environment
+```
+
+Then, run the bot with the command:
 ```bash
 python3 setup.py
 ``` 
