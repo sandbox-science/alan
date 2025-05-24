@@ -5,7 +5,7 @@ async def on_greeting(match, bot):
     if match.command("greet"):
         await bot.api.send_text_message(
             match.room.room_id,
-            "Hello, World!"
+            "Hello, World! 😊"
         )
 
 async def on_join(event, room, bot):
@@ -15,7 +15,7 @@ async def on_join(event, room, bot):
     user     = event.source.get("state_key")
     index = user.find(":", 1)
     
-    text = f"👋 Welcome @{user[1:index]}! Feel free to introduce yourself."
+    text = f"👋 Welcome @{user[1:index]}! Good to have you here!"
     if event.content.get("membership") == "join":
         print(f"User {user} joined the room.")
         await bot.api.send_text_message(
