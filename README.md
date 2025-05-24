@@ -3,9 +3,13 @@
 Library used: https://pypi.org/project/simplematrixbotlib/
 
 ## Requirements
-- Python 3.11 or higher
-- pip install -r requirements.txt
-- Create a `config.yaml` file in the root directory with the following structure:
+> [!IMPORTANT]
+>
+> Don't skip this step, as it is crucial for the bot to work properly.
+
+- Python 3.10 or higher
+- [Matrix account](https://app.element.io/#/register) (create a new account for the bot).
+- Create a `config.yaml` file in the `config/` directory with the following structure:
 ```yaml
 CLIENT: "https://matrix.org"
 USERNAME: "@username:matrix.org" # replace with the bot's username
