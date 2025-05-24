@@ -1,4 +1,5 @@
-vbot
+venv
 session.txt
 __pycache__
 config.yaml
+Alan.egg-info
