@@ -20,9 +20,10 @@ python -m venv venv      # create a virtual environment
 source venv/bin/activate # activate the virtual environment
 ```
 
-Then, run the bot with the command:
+Then, run the following command to install and start the bot:
 ```bash
-python3 setup.py
+pip install -e .
+alan start
 ``` 
 Invite the bot to a room and type the command you want to execute.
 - The bot will respond to commands prefixed with `!` and will also respond to some messages without the prefix.
