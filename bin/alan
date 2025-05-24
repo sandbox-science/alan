@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+import bot.alan
+import asyncio
+
+
+def start():
+    """
+    Start the bot.
+    """
+    try:
+        # bot.alan.start()
+        asyncio.run(bot.alan.start())
+    except Exception as e:
+        print(f"An error occurred while starting the bot: {e}")
+    finally:
+        print("Bot has been stopped.")
