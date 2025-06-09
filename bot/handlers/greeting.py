@@ -1,34 +1,29 @@
 from bot.utils import embed_md
+from matrix.bot import Context
 
 
-async def on_greeting(match, bot):
+async def greeting(ctx: Context):
     """
     If the user typed "!greet", reply with "Hello, World!".
     """
-    if match.command("greet"):
-        embed = embed_md.make_embed(
-            description="Hello, World! 😊",
-        )
-        await bot.api.send_text_message(
-            match.room.room_id,
-            embed
-        )
+    embed = embed_md.make_embed(
+        description="Hello, World! 😊",
+    )
+    await ctx.send(embed)
 
-async def on_join(event, room, bot):
+
+async def welcome_handler(ctx: Context):
     """
     If the user joined the room, reply with "Welcome!".
     """
-    user     = event.source.get("state_key")
+    user = ctx.event.source.get("state_key")
     index = user.find(":", 1)
-    
+
     text = f"👋 Welcome @{user[1:index]}! Good to have you here!"
     embed = embed_md.make_embed(
         title="Welcome!",
         description=text,
     )
-    if event.content.get("membership") == "join":
+    if ctx.event.content.get("membership") == "join":
         print(f"User {user} joined the room.")
-        await bot.api.send_text_message(
-            room.room_id,
-            embed
-        )
+        await ctx.send(embed)

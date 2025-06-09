@@ -17,7 +17,7 @@ def make_embed(
         A formatted Markdown string.
     """
     title_text  = f"## {title}"       if title  else ""
-    field_text = f"### **{field}**" if field else ""
+    field_text = f"### {field}" if field else ""
 
     lines = """
 ---

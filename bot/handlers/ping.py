@@ -1,22 +1,10 @@
-import time
-from bot.utils import embed_md
+from matrix.bot import Context
 
 
-async def on_ping(match, bot, start):
+async def ping(ctx: Context):
     """
-    If the user typed "!ping", reply with a markdown‐styled card showing
-    the latency in milliseconds.
+    Reply if the user typed "!ping"
     """
-    if not match.command("ping"):
-        return
+    print(f"{ctx.sender} invoked {ctx.body} in room {ctx.room_name}.")
 
-    # Measure latency in ms
-    end        = time.monotonic_ns()
-    latency_ms = (end - start) / 1_000_000
-
-    embed = embed_md.make_embed(
-        title="🏓 Pong!",
-        description="Here’s how fast I’m thinking:",
-        field=f"Latency {latency_ms:.2f} ms"
-    )
-    await bot.api.send_markdown_message(match.room.room_id, embed)
+    await ctx.send("Pong!")

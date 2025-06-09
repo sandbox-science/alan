@@ -1,14 +1,9 @@
-from simplematrixbotlib import MessageMatch
+from matrix.bot import Context
 
 
-async def on_react(room, event, bot):
+async def react(ctx: Context):
     """
     React to a message with a wave emoji if the user types "hello".
     """
-    match = MessageMatch(room, event, bot)
-    if match.is_not_from_this_bot() and match.command("hello"):
-        await bot.api.send_reaction(
-            room.room_id,
-            event.event_id,
-            key="👋"
-        )
+    # TODO: update this when matrix.py has send_reaction() implemented
+    await ctx.send("👋")
