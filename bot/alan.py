@@ -1,53 +1,61 @@
-import time
 import os
 
-from simplematrixbotlib import Bot, Creds, MessageMatch
+from matrix.bot import Bot
 from config.config import load_config
-from bot.handlers import echo, ping, greeting, react
-from nio import RoomMemberEvent
-import asyncio
+
+from bot.handlers.echo import echo
+from bot.handlers.react import react
+from bot.handlers.weather import weather
+from bot.handlers.greeting import welcome_handler, greeting
+from bot.handlers.ping import ping
+
+
+COMMANDS = {
+    "ping": ping,
+    "echo": echo,
+    "greet": greeting,
+    "react": react,
+    "weather": weather,
+    "welcome": welcome_handler,
+}
+
 
 def setup_bot():
-    cfg   = load_config()
-    creds = Creds(cfg["CLIENT"], cfg["USERNAME"], cfg["PASSWORD"])
+    cfg = load_config()
+    username = cfg["USERNAME"]
+    password = cfg["PASSWORD"]
 
-    return Bot(creds), cfg["PREFIX"]
+    return Bot(username=username, password=password)
 
-def setup_handlers(bot, prefix):
+
+def setup_handlers(bot):
     """
     Setup the bot handlers for different events.
     """
-    @bot.listener.on_message_event
-    async def _on_message(room, event):
-        latency_start = time.monotonic_ns()
-        match         = MessageMatch(room, event, bot, prefix)
-        if match.is_not_from_this_bot() and match.prefix():
-            await ping.on_ping(match, bot, latency_start)
-            await echo.on_echo(match, bot)
-            await greeting.on_greeting(match, bot)
-        else:
-            await react.on_react(room, event, bot)
+    for name, func in COMMANDS.items():
+        register_command(bot, name, func)
 
-    @bot.listener.on_custom_event(RoomMemberEvent)
-    async def _on_member(room, event):
-        if event.membership == "join" and \
-           event.source.get("unsigned", {}).get("prev_content", {}).get("membership") != "join":
-            await greeting.on_join(event, room, bot)
+
+def register_command(bot, name, handler):
+    @bot.command(name)
+    async def _wrapper(ctx):
+        await handler(ctx)
+
 
 def start():
     """
     Entry point for the bot.
     """
     # Check if the config.yaml file exists
-    if not os.path.exists('config/config.yaml'):
+    if not os.path.exists("config/config.yaml"):
         print("config.yaml file not found. Please create one.")
         return
 
     # Load the configuration and create the bot instance
-    bot, prefix = setup_bot()
-    setup_handlers(bot, prefix)
+    bot = setup_bot()
+    setup_handlers(bot)
 
-    bot.run()
+    bot.start()
 
-# Run the main function in an asyncio event loop
-asyncio.get_event_loop().run_until_complete(start())
+
+start()
