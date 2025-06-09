@@ -1,6 +1,6 @@
 ## Matrix Bot
 
-Library used: https://pypi.org/project/simplematrixbotlib/
+Library used: https://github.com/Code-Society-Lab/matrixpy
 
 ## Requirements
 > [!IMPORTANT]
@@ -13,7 +13,6 @@ Library used: https://pypi.org/project/simplematrixbotlib/
 ```yaml
 CLIENT: "https://matrix.org"
 USERNAME: "@username:matrix.org" # replace with the bot's username
-PREFIX: "!"
 PASSWORD: "password" # replace with the bot's password
 ```
 
