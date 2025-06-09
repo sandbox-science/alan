@@ -1,6 +1,9 @@
 ## Matrix Bot
 
 Library used: https://github.com/Code-Society-Lab/matrixpy
+> [!NOTE]
+>
+> This bot is developed in parallel with the `matrix.py` framework (link to the framework above).
 
 ## Requirements
 > [!IMPORTANT]
