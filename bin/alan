@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-import bot.alan
+import asyncio
+from bot.alan import Alan
 
-
-def start():
+if __name__ == "__main__":
     """
     Start the bot.
     """
     try:
-        bot.alan.start()
+        alan = Alan()
+        asyncio.run(alan.start())
     except Exception as e:
         print(f"An error occurred while starting the bot: {e}")
     finally:
