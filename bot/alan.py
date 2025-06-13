@@ -9,6 +9,7 @@ from bot.handlers.weather import weather
 from bot.handlers.greeting import welcome_handler, greeting
 from bot.handlers.ping import ping
 
+from logging import critical
 
 COMMANDS = {
     "ping": ping,
@@ -20,42 +21,33 @@ COMMANDS = {
 }
 
 
-def setup_bot():
-    cfg = load_config()
-    username = cfg["USERNAME"]
-    password = cfg["PASSWORD"]
+class Alan:
+    def __init__(self):
+        cfg = load_config()
 
-    return Bot(username=username, password=password)
+        self.username = cfg["USERNAME"]
+        self.password = cfg["PASSWORD"]
+        self.bot = Bot(username=self.username, password=self.password)
 
+    def register_command(self, bot, name, handler):
+        @bot.command(name)
+        async def _wrapper(ctx):
+            await handler(ctx)
 
-def setup_handlers(bot):
-    """
-    Setup the bot handlers for different events.
-    """
-    for name, func in COMMANDS.items():
-        register_command(bot, name, func)
+    def setup_handlers(self):
+        """
+        Setup the bot handlers for different events.
+        """
+        for name, func in COMMANDS.items():
+            self.register_command(self.bot, name, func)
 
+    def start(self):
+        """
+        Entry point for the bot.
+        """
+        if not os.path.exists("config/config.yaml"):
+            critical("config/config.yaml file not found. Please create one.")
+            return
 
-def register_command(bot, name, handler):
-    @bot.command(name)
-    async def _wrapper(ctx):
-        await handler(ctx)
-
-
-def start():
-    """
-    Entry point for the bot.
-    """
-    # Check if the config.yaml file exists
-    if not os.path.exists("config/config.yaml"):
-        print("config.yaml file not found. Please create one.")
-        return
-
-    # Load the configuration and create the bot instance
-    bot = setup_bot()
-    setup_handlers(bot)
-
-    bot.start()
-
-
-start()
+        self.setup_handlers()
+        self.bot.start()
